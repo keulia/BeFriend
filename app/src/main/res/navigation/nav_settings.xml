@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_settings"
+    app:startDestination="@id/usuarioSettingsFragment">
+    <fragment
+        android:id="@+id/usuarioSettingsFragment"
+        android:name="com.casoca.befriend.UsuarioSettingsFragment"
+        android:label="fragment_usuario_settings"
+        tools:layout="@layout/fragment_usuario_settings" />
+    <fragment
+        android:id="@+id/frasesSettingsFragment"
+        android:name="com.casoca.befriend.FrasesSettingsFragment"
+        android:label="fragment_frases_settings"
+        tools:layout="@layout/fragment_frases_settings" >
+        <action
+            android:id="@+id/action_frasesSettingsFragment_to_newSentenceFragment"
+            app:destination="@id/newSentenceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/conversacionesSettingsFragment"
+        android:name="com.casoca.befriend.ConversacionesSettingsFragment"
+        android:label="fragment_conversaciones_settings"
+        tools:layout="@layout/fragment_conversaciones_settings" >
+        <action
+            android:id="@+id/action_conversacionesSettingsFragment_to_newContactFragment"
+            app:destination="@id/newContactFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newSentenceFragment"
+        android:name="com.casoca.befriend.NewSentenceFragment"
+        android:label="fragment_new_sentence"
+        tools:layout="@layout/fragment_new_sentence" />
+    <fragment
+        android:id="@+id/newContactFragment"
+        android:name="com.casoca.befriend.utilidades.newContactFragment"
+        android:label="newContactFragment" />
+</navigation>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "734142526664",
+    "project_id": "befriend-d8a37",
+    "storage_bucket": "befriend-d8a37.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734142526664:android:d41389dec19421236aa1fd",
+        "android_client_info": {
+          "package_name": "com.casoca.befriend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734142526664-qd76fmk569jskt7ig878c3j1b7v2cfd6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD6mM6XR1l6Z74tFCSB4CZHBjYrvz-Wps"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734142526664-qd76fmk569jskt7ig878c3j1b7v2cfd6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".NewSentenceFragment"
+    android:background="@drawable/gradient_background">
+
+    <TextView
+        android:layout_marginTop="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Escribe un tema de conversación nuevo"
+        android:fontFamily="@font/nunito_sans_semibold"
+        android:textColor="@color/white"
+        android:textSize="28sp"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        />
+
+    <EditText
+        android:layout_marginTop="40dp"
+        android:id="@+id/etConversacion"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="..."
+        android:fontFamily="@font/nunito_sans_semibold"
+        android:background="@drawable/logging_field_background"
+        android:layout_gravity="center"
+        android:padding="12dp"
+
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Crear"
+        android:fontFamily="@font/nunito_sans_semibold"
+        android:textColor="@color/azul1"
+        android:background="@drawable/btn_background"
+        android:layout_marginHorizontal="80dp"
+        android:layout_marginTop="100dp"
+        />
+
+</LinearLayout>

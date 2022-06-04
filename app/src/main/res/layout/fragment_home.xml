@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeFragment"
+    android:background="@drawable/gradient_background">
+
+
+    <ImageView
+        android:id="@+id/ivBtnLogout"
+        android:layout_width="47dp"
+        android:layout_height="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/logout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvBienvenida"
+            android:layout_width="300dp"
+            android:layout_height="58dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:text="Hola"
+            android:textColor="@color/white"
+            android:textSize="28sp" />
+
+        <TextView
+            android:id="@+id/tvMensajePositivo"
+            android:layout_width="330dp"
+            android:layout_height="160dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/btn_background"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:padding="20dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="@color/azul1"
+            android:textSize="18sp" />
+
+        <androidx.gridlayout.widget.GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:columnCount="2"
+            app:rowCount="2">
+
+            <ImageView
+                android:id="@+id/ivBtnNoti"
+                android:layout_width="165dp"
+                android:layout_height="165dp"
+                android:src="@drawable/eventos" />
+
+            <ImageView
+                android:id="@+id/ivBtnPersona"
+                android:layout_width="165dp"
+                android:layout_height="165dp"
+                android:src="@drawable/lista_contactos" />
+
+            <ImageView
+                android:id="@+id/ivBtnAyuda"
+                android:layout_width="165dp"
+                android:layout_height="165dp"
+                android:src="@drawable/ayuda" />
+
+            <ImageView
+                android:id="@+id/ivBtnSettings"
+                android:layout_width="165dp"
+                android:layout_height="165dp"
+                android:src="@drawable/settings" />
+
+        </androidx.gridlayout.widget.GridLayout>
+    </LinearLayout>
+
+</RelativeLayout>

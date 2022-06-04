@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="false"
+    android:orientation="vertical"
+    tools:context=".NewContactoFragment"
+    android:background="@drawable/gradient_background3">
+
+
+    <ImageView
+        android:id="@+id/ivCircle6"
+        android:layout_width="604dp"
+        android:layout_height="620dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="-302dp"
+        android:layout_marginBottom="-52dp"
+        android:alpha="0.2"
+        app:srcCompat="@drawable/circulo_t1" />
+
+    <ImageView
+        android:id="@+id/ivCircle7"
+        android:layout_width="296dp"
+        android:layout_height="296dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="-112dp"
+        android:layout_marginTop="-36dp"
+        android:alpha="0.2"
+        app:srcCompat="@drawable/circulo_t1" />
+
+    <ImageView
+        android:id="@+id/ivCircle8"
+        android:layout_width="704dp"
+        android:layout_height="595dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-436dp"
+        android:layout_marginTop="-36dp"
+        android:layout_marginBottom="-290dp"
+        android:alpha="0.2"
+        app:srcCompat="@drawable/circulo_t1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/ivFotoContacto"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/user"
+            android:layout_gravity="center"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@color/azul1"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="30dp"/>
+
+        <EditText
+            android:id="@+id/etNombre"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/logging_field_background"
+            android:drawableStart="@drawable/ic_baseline_person_24"
+            android:drawablePadding="20dp"
+            android:ems="10"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:hint="Nombre"
+            android:inputType="textPersonName"
+            android:maxLength="30"
+            android:textColor="@color/azul1"
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/etCumpleanos"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="22sp"
+            android:layout_marginTop="20dp"
+            android:drawableStart="@drawable/ic_baseline_cake_24"
+            android:drawablePadding="20dp"
+            android:editable="true"
+            android:ems="10"
+            android:focusable="false"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:hint="Cumpleaños"
+            android:inputType="text"
+            android:textColor="@color/azul1"
+            android:background="@drawable/logging_field_background"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"/>
+
+        <EditText
+            android:id="@+id/etNotas"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:drawableStart="@drawable/ic_baseline_notes_24"
+            android:drawablePadding="20dp"
+            android:textSize="22sp"
+            android:ems="10"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:hint="Notas"
+            android:inputType="textPersonName"
+            android:textColor="@color/azul1"
+            android:maxLength="200"
+            android:background="@drawable/logging_field_background"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"/>
+
+        <TextView
+            android:layout_marginTop="20dp"
+            android:id="@+id/tvFrecuencia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¿Con que frecuencia deseas recibir notificaciones?"
+            android:textColor="@color/azul1"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:lineSpacingExtra="-7sp"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etNumero"
+                android:layout_width="80dp"
+                android:layout_height="48dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/logging_field_background"
+                android:fontFamily="@font/nunito_sans_semibold"
+                android:hint="0"
+                android:inputType="number"
+                android:maxLength="3"
+                android:textAlignment="center"
+                android:textColor="@color/azul1"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/tvDiaNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/nunito_sans_semibold"
+                android:text="Días"
+                android:textColor="@color/azul1"
+                android:textSize="22sp" />
+
+        </LinearLayout>
+
+        <CheckBox
+            android:layout_marginTop="20dp"
+            android:id="@+id/cbTemasConvo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Quiero recibir temas de conversación!"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@color/azul1"
+            android:textSize="16sp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_marginTop="20dp"
+            android:id="@+id/btnCrearContacto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Crear"
+            android:background="@drawable/btn_background"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@color/azul1"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

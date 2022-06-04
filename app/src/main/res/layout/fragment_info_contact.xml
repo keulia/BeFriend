@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background2"
+    android:orientation="vertical"
+    tools:context=".InfoContactFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:src="@drawable/circulo_t3" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/ivContact"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/user" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="@string/hello_blank_fragment"
+            android:textAlignment="center"
+            android:textColor="@color/azul1"
+            android:textSize="20sp"
+            android:fontFamily="@font/nunito_sans_semibold"/>
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:id="@+id/ivBtnSettingsUser"
+
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@drawable/btn_settings_user" />
+
+        <LinearLayout
+            android:layout_marginTop="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="30dp"
+                android:id="@+id/ivCake"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/cake" />
+
+            <TextView
+                android:id="@+id/tvBirthday"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="16dp"
+                android:text="TextView"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:fontFamily="@font/nunito_sans_semibold"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_marginTop="27dp"
+                android:id="@+id/ivEvent"
+                android:layout_marginLeft="30dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/event" />
+
+            <TextView
+                android:id="@+id/tvNextNotification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginBottom="20dp"
+                android:paddingBottom="40dp"
+                android:background="@drawable/btn_background"
+                android:padding="10dp"
+                android:text="TextView"
+                android:textSize="18sp"
+                android:textColor="@color/azul1"
+                android:fontFamily="@font/nunito_sans_semibold"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginBottom="5dp"
+            android:id="@+id/tvNotasTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Notas"
+            android:layout_marginLeft="55dp"
+            android:layout_marginRight="40dp"
+            android:fontFamily="@font/nunito_sans_semibold"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:id="@+id/tvNotes"
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:background="@drawable/btn_background"
+            android:paddingLeft="20dp"
+            android:text="TextView"
+            android:textColor="@color/azul1" />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

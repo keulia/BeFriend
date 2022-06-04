@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:orientation="vertical"
+    tools:context=".ConversacionesSettingsFragment">
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Conversaciones"
+        android:fontFamily="@font/nunito_sans_bold"
+        android:textColor="@color/white"
+        android:textSize="40dp"
+        android:layout_marginBottom="20dp"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNewSentence"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tema de conversación nuevo"
+        android:background="@drawable/logging_field_background"
+        android:fontFamily="@font/nunito_sans_bold"
+        android:textColor="@color/azul1"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="10dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/tvConversacion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
