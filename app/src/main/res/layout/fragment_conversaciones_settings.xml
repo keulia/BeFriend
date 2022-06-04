@@ -28,7 +28,7 @@
         android:background="@drawable/logging_field_background"
         android:fontFamily="@font/nunito_sans_bold"
         android:textColor="@color/azul1"
-        android:layout_marginHorizontal="30dp"
+        android:layout_marginHorizontal="18dp"
         android:layout_marginBottom="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
