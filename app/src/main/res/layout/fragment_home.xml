@@ -43,7 +43,7 @@
             android:background="@drawable/btn_background"
             android:fontFamily="@font/nunito_sans_semibold"
             android:padding="20dp"
-            android:text="TextView"
+            android:text="cargando..."
             android:textAlignment="center"
             android:textColor="@color/azul1"
             android:textSize="18sp" />

@@ -28,6 +28,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import java.time.Year
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -68,6 +69,7 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
 
     private var messageNotification = ""
+    private var messageNotificationCumple = ""
 
     private var frases = mutableListOf<String>()
 
@@ -222,6 +224,7 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             month = (mes+1).toString()
         }
 
+
         daydefault=dia
         monthdefault=mes+1
 
@@ -254,28 +257,26 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 alarmMgr = HomeActivity.contexto!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 val intent = Intent(HomeActivity.contexto, Notification::class.java)
 
-                intent.putExtra(titleExtra, "hola!!!! RECUERDA")
+                intent.putExtra(titleExtra, "Alguien te echa de menos!")
                 intent.putExtra(messageExtra, messageNotification)
 
                 alarmIntent = PendingIntent.getBroadcast(HomeActivity.contexto, 0, intent, 0)
 
-                // Alarma a las 8:30 a.m.
 
                 val calendar = Calendar.getInstance()
                 calendar.timeInMillis = System.currentTimeMillis()
-                //calendar[Calendar.HOUR_OF_DAY] = 14
-                //calendar[Calendar.MINUTE] = 0
+
 
                 var diasSeleccionados = TimeUnit.HOURS.toMillis(binding.etNumero.text.toString().toLong())
 
 
-                requireActivity().toast(diasSeleccionados.toString())
-
-                // Repeticiones en intervalos de 20 minutos
+                // Repeticiones en intervalos
                 alarmMgr.setRepeating(
                     AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
                     diasSeleccionados, alarmIntent
                 )
+            }.addOnSuccessListener {
+                registrarnotiCumple()
             }
 
     }
@@ -284,14 +285,13 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun mensajeono(){
         messageNotification = if (binding.cbTemasConvo.isChecked){
-            "Escribe y "+binding.etNombre.text.toString()+" "+frases.random()
+            "Deberías de escribir a "+binding.etNombre.text.toString()+". "+frases.random()
         }else{
-            "Escribe y "+binding.etNombre.text.toString()
+            "Deberías de escribir a "+binding.etNombre.text.toString()
         }
     }
 
-    private fun registrarNotificacion(){
-
+    private fun registrarnotiCumple(){
         var idNotification = UUID.randomUUID().toString()
 
         db.collection("users")
@@ -302,7 +302,7 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 mapOf(
 
                     "id" to idNotification,
-                    "message" to messageNotification,
+                    "message" to "Hoy es el cumpleaños de "+binding.etNombre.text.toString(),
                     "name" to binding.etNombre.text.toString(),
                     "dias" to binding.etNumero.text.toString()
 
@@ -315,24 +315,22 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 alarmMgr = HomeActivity.contexto!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 val intent = Intent(HomeActivity.contexto, Notification::class.java)
 
-                intent.putExtra(titleExtra, "hola!!!! RECUERDA")
-                intent.putExtra(messageExtra, messageNotification)
+                intent.putExtra(titleExtra, "Alguien te echa de menos!")
+                intent.putExtra(messageExtra, "Hoy es el cumpleaños de "+binding.etNombre.text.toString())
 
                 alarmIntent = PendingIntent.getBroadcast(HomeActivity.contexto, 0, intent, 0)
 
-                // Alarma a las 8:30 a.m.
 
                 val calendar = Calendar.getInstance()
                 calendar.timeInMillis = System.currentTimeMillis()
-                //calendar[Calendar.HOUR_OF_DAY] = 14
-                //calendar[Calendar.MINUTE] = 0
-
-                var diasSeleccionados = TimeUnit.HOURS.toMillis(binding.etNumero.text.toString().toLong())
+                calendar[Calendar.DAY_OF_MONTH] =  day.toInt()
+                calendar[Calendar.MONTH] = month.toInt()
 
 
-                requireActivity().toast(diasSeleccionados.toString())
 
-                // Repeticiones en intervalos de 20 minutos
+                var diasSeleccionados = TimeUnit.DAYS.toMillis(99999999999999999)
+
+
                 alarmMgr.setRepeating(
                     AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
                     diasSeleccionados, alarmIntent
@@ -340,10 +338,6 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             }
 
     }
-
-
-
-
 
 
 }

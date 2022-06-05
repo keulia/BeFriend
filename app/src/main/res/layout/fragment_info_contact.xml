@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="16dp"
-                android:text="TextView"
+                android:text="Fecha desconocida..."
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:fontFamily="@font/nunito_sans_semibold"
@@ -99,7 +99,7 @@
                 android:paddingBottom="40dp"
                 android:background="@drawable/btn_background"
                 android:padding="10dp"
-                android:text="TextView"
+                android:text="..."
                 android:textSize="18sp"
                 android:textColor="@color/azul1"
                 android:fontFamily="@font/nunito_sans_semibold"
@@ -128,7 +128,7 @@
             android:layout_marginRight="40dp"
             android:background="@drawable/btn_background"
             android:paddingLeft="20dp"
-            android:text="TextView"
+            android:text=""
             android:textColor="@color/azul1" />
 
     </LinearLayout>

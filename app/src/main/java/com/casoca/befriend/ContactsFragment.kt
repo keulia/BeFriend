@@ -105,8 +105,8 @@ class ContactsFragment : Fragment(),RecyclerContacts.OnCajaClickListener {
                 contactList = value!!.toObjects(Contacto::class.java)
                 binding.rvListaContactos.apply {
                     setHasFixedSize(true)
-                    layoutManager = LinearLayoutManager(activity)
-                    adapter = RecyclerContacts(requireContext(), contactList, this@ContactsFragment)
+                    layoutManager = LinearLayoutManager(HomeActivity.contexto)
+                    adapter = RecyclerContacts(HomeActivity.contexto, contactList, this@ContactsFragment)
                 }
             }
     }
