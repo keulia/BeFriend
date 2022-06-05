@@ -276,7 +276,7 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                     diasSeleccionados, alarmIntent
                 )
             }.addOnSuccessListener {
-                registrarnotiCumple()
+                //registrarnotiCumple()
             }
 
     }
@@ -291,6 +291,7 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         }
     }
 
+    /*
     private fun registrarnotiCumple(){
         var idNotification = UUID.randomUUID().toString()
 
@@ -338,6 +339,7 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             }
 
     }
+     */
 
 
 }

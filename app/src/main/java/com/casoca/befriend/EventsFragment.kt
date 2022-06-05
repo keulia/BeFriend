@@ -58,7 +58,6 @@ class EventsFragment : Fragment() {
                 var notis = value!!.toObjects(Noti::class.java)
 
 
-
                 binding.rvNotificaciones.apply {
                     setHasFixedSize(true)
                     layoutManager = LinearLayoutManager(HomeActivity.contexto)

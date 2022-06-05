@@ -13,7 +13,7 @@ class RecyclerNotificaciones(var contexto: Context, var listaNoti:MutableList<No
     inner class HolderNotificaciones(itemView: View):RecyclerView.ViewHolder(itemView){
 
         var tvFrase = itemView.findViewById<TextView>(R.id.tvFrase)
-        var dias = itemView.findViewById<TextView>(R.id.tvDias)
+        //var dias = itemView.findViewById<TextView>(R.id.tvDias)
 
 
 
@@ -28,7 +28,7 @@ class RecyclerNotificaciones(var contexto: Context, var listaNoti:MutableList<No
     override fun onBindViewHolder(holder: HolderNotificaciones, position: Int) {
 
         holder.tvFrase.text = listaNoti[position].message
-        holder.dias.text = "Cada "+ listaNoti[position].dias +" dias"
+        //holder.dias.text = "Cada "+ listaNoti[position].dias +" dias"
     }
 
     override fun getItemCount(): Int = listaNoti.size

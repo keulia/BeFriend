@@ -257,7 +257,7 @@ class EditContactFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
 
     private fun mensajeono(){
         messageNotification = if (binding.cbTemasConvo.isChecked){
-            "Escribe y "+binding.etNombre.text.toString()+" "+frases.random()
+            "Deberías de escribir a "+binding.etNombre.text.toString()+" "+frases.random()
         }else{
             "Escribe y "+binding.etNombre.text.toString()
         }
