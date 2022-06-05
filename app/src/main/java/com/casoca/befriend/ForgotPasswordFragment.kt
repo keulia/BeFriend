@@ -46,9 +46,11 @@ class ForgotPasswordFragment : Fragment() {
         if (binding.etEmail.text.toString().isNotEmpty()){
             auth.sendPasswordResetEmail(binding.etEmail.text.toString()).addOnCompleteListener {
                 if (it.isSuccessful){
-                    Toast.makeText(requireContext(), "El E-mail de recuperación fue mandado correctamente!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "El E-mail de recuperación fue mandado " +
+                            "correctamente!", Toast.LENGTH_SHORT).show()
                 }else{
-                    Toast.makeText(requireContext(), "Error, E-mail no registrado", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Error, E-mail no " +
+                            "registrado", Toast.LENGTH_SHORT).show()
                 }
             }
         }

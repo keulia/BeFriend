@@ -61,6 +61,7 @@ class SignInFragment : Fragment() {
          */
     }
 
+    // Mantener la sesión iniciada
     private fun signin(email: String,pass: String){
         auth.signInWithEmailAndPassword(email,pass)
             .addOnCompleteListener {

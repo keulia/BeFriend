@@ -74,9 +74,8 @@ class InfoContactFragment : Fragment(){
                    .transition(DrawableTransitionOptions.withCrossFade())
                    .into(binding.ivContact)
 
-               //todo PROX NOTIFICATION
                binding.tvNotes.setText(it["notes"].toString())
-
+               binding.tvNextNotification.text = it["message"].toString()
            }
 
     }

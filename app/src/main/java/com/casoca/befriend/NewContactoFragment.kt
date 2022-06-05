@@ -3,7 +3,6 @@ package com.casoca.befriend
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.hardware.SensorManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
@@ -13,19 +12,15 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.casoca.befriend.databinding.FragmentNewContactoBinding
+import com.casoca.befriend.utilidades.*
 import com.casoca.befriend.utilidades.Notification
-import com.casoca.befriend.utilidades.messageExtra
-import com.casoca.befriend.utilidades.titleExtra
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -34,6 +29,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
@@ -70,6 +66,11 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private var todayDate = ""
     val currentTime = Calendar.getInstance().time
 
+
+    private var messageNotification = ""
+
+    private var frases = mutableListOf<String>()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -86,14 +87,30 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         binding.ivFotoContacto.setOnClickListener {
             uploadPhoto()
         }
-        binding.cbTemasConvo.setOnClickListener {
-            establecerNotificacion()
+
+
+        cargarListaFrases()
+
+
+        var alarmMgr: AlarmManager? = null
+        lateinit var alarmIntent: PendingIntent
+
+        alarmMgr = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmIntent = Intent(HomeActivity.contexto, android.app.Notification::class.java).let { intent ->
+            PendingIntent.getBroadcast(HomeActivity.contexto, 0, intent, 0)
         }
+
+        alarmMgr.set(
+            AlarmManager.ELAPSED_REALTIME_WAKEUP,
+            SystemClock.elapsedRealtime() + 10 * 1000,
+            alarmIntent
+        )
+
 
         // Save contact
         binding.btnCrearContacto.setOnClickListener {
 
-            establecerNotificacion()
+
             if(binding.etNombre.text.toString().isNotEmpty() &&
                 binding.etNumero.text.toString().isNotEmpty()){
 
@@ -111,70 +128,14 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         }
 
     }
-    //create notification to text that person
-    private fun enableNotification() {
-        val name = getString(R.string.channel_name)
-        val descriptionText = getString(R.string.channel_description)
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel("notification_id", name, importance).apply {
-            description = descriptionText
-        }
-        // Register the channel with the system
 
-        val notificationManager: NotificationManager = requireActivity().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-        var builder = NotificationCompat.Builder(HomeActivity.contexto, channel.id)
-            .setSmallIcon(R.drawable.splashscreen_icon)
-            .setContentTitle("test title")
-            .setContentText("test text")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        with(NotificationManagerCompat.from(HomeActivity.contexto)) {
-            // notificationId is a unique int for each notification that you must define
-            notify(57, builder.build())
-        }
-
-    }
-
-
-    //Establecer Notificacion
-
-    private fun establecerNotificacion(){
-        val title = "Noti de tati"
-        val message = "Esto es un apureba"
-        val importance = NotificationManager.IMPORTANCE_HIGH
-
-        val channel =NotificationChannel("45", title, importance)
-        channel.description = message
-
-        val notifiactionManager = HomeActivity.contexto.applicationContext.getSystemService(NotificationManager::class.java)
-
-        notifiactionManager.createNotificationChannel(channel)
-
-
-        var dias = 5//binding.etNumero.text.toString().toLong() //50
-        var horas = dias*24
-        var minutos = horas*60
-        var segundos = minutos*60
-        var  tiempoEnMilisegundos = segundos * 1000
-
-
-        var alarmMgr: AlarmManager? = null
-
-        alarmMgr = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        var alarmIntent: PendingIntent = Intent(context, Notification::class.java).let { intent ->
-            intent.putExtra(titleExtra, title)
-            intent.putExtra(messageExtra, message)
-            PendingIntent.getBroadcast(
-                context,
-                0,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            )
-        }
-
-
-
-        alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime()+ 10 *1000,alarmIntent)
+    private fun cargarListaFrases() {
+        db.collection("users")
+            .document(auth.currentUser?.uid.toString())
+            .get()
+            .addOnSuccessListener {
+                 frases  = it["conversaciones"] as MutableList<String>
+            }
 
     }
 
@@ -186,6 +147,7 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         var folder:StorageReference = FirebaseStorage.getInstance("gs://befriend-d8a37.appspot.com").reference.child(idContact)
         var fileName:StorageReference = folder.child(idContactImg)
 
+        mensajeono()
     if(selectedImg!=null)
     {
         fileName.putFile(selectedImg!!).addOnSuccessListener {
@@ -202,12 +164,12 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                             "notes" to binding.etNotas.text.toString(),
                             "temasConvo" to binding.cbTemasConvo.isChecked,
                             "number" to binding.etNumero.text.toString(),
+                            "message" to messageNotification,
                             "img" to imgUrl
                         )
                     ).addOnCompleteListener {
-                        //Aqui va la notificacion para que funcione
 
-
+                        registrarNotificacion()
                         findNavController().popBackStack()
                     }
             }
@@ -226,9 +188,11 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                     "temasConvo" to binding.cbTemasConvo.isChecked,
                     "number" to binding.etNumero.text.toString(),
                     "fechaCrear" to todayDate,
+                    "message" to messageNotification,
                     "img" to ""
                 )
             ).addOnCompleteListener {
+                registrarNotificacion()
                 findNavController().popBackStack()
             }
     }
@@ -264,5 +228,122 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         todayDate="$dia/$month/$ano"
         binding.etCumpleanos.setText("$day/$month")
     }
+
+    private fun registrarNotificacion(){
+
+        var idNotification = UUID.randomUUID().toString()
+
+        db.collection("users")
+            .document(auth.currentUser?.uid.toString())
+            .collection("notificaciones")
+            .document(idNotification)
+            .set(
+                mapOf(
+
+                    "id" to idNotification,
+                    "message" to messageNotification,
+                    "name" to binding.etNombre.text.toString(),
+                    "dias" to binding.etNumero.text.toString()
+
+                )
+            ).addOnSuccessListener {
+
+                val alarmMgr: AlarmManager
+                val alarmIntent: PendingIntent
+
+                alarmMgr = HomeActivity.contexto!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val intent = Intent(HomeActivity.contexto, Notification::class.java)
+
+                intent.putExtra(titleExtra, "hola!!!! RECUERDA")
+                intent.putExtra(messageExtra, messageNotification)
+
+                alarmIntent = PendingIntent.getBroadcast(HomeActivity.contexto, 0, intent, 0)
+
+                // Alarma a las 8:30 a.m.
+
+                val calendar = Calendar.getInstance()
+                calendar.timeInMillis = System.currentTimeMillis()
+                //calendar[Calendar.HOUR_OF_DAY] = 14
+                //calendar[Calendar.MINUTE] = 0
+
+                var diasSeleccionados = TimeUnit.HOURS.toMillis(binding.etNumero.text.toString().toLong())
+
+
+                requireActivity().toast(diasSeleccionados.toString())
+
+                // Repeticiones en intervalos de 20 minutos
+                alarmMgr.setRepeating(
+                    AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
+                    diasSeleccionados, alarmIntent
+                )
+            }
+
+    }
+
+
+
+    private fun mensajeono(){
+        messageNotification = if (binding.cbTemasConvo.isChecked){
+            "Escribe y "+binding.etNombre.text.toString()+" "+frases.random()
+        }else{
+            "Escribe y "+binding.etNombre.text.toString()
+        }
+    }
+
+    private fun registrarNotificacion(){
+
+        var idNotification = UUID.randomUUID().toString()
+
+        db.collection("users")
+            .document(auth.currentUser?.uid.toString())
+            .collection("notificaciones")
+            .document(idNotification)
+            .set(
+                mapOf(
+
+                    "id" to idNotification,
+                    "message" to messageNotification,
+                    "name" to binding.etNombre.text.toString(),
+                    "dias" to binding.etNumero.text.toString()
+
+                )
+            ).addOnSuccessListener {
+
+                val alarmMgr: AlarmManager
+                val alarmIntent: PendingIntent
+
+                alarmMgr = HomeActivity.contexto!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val intent = Intent(HomeActivity.contexto, Notification::class.java)
+
+                intent.putExtra(titleExtra, "hola!!!! RECUERDA")
+                intent.putExtra(messageExtra, messageNotification)
+
+                alarmIntent = PendingIntent.getBroadcast(HomeActivity.contexto, 0, intent, 0)
+
+                // Alarma a las 8:30 a.m.
+
+                val calendar = Calendar.getInstance()
+                calendar.timeInMillis = System.currentTimeMillis()
+                //calendar[Calendar.HOUR_OF_DAY] = 14
+                //calendar[Calendar.MINUTE] = 0
+
+                var diasSeleccionados = TimeUnit.HOURS.toMillis(binding.etNumero.text.toString().toLong())
+
+
+                requireActivity().toast(diasSeleccionados.toString())
+
+                // Repeticiones en intervalos de 20 minutos
+                alarmMgr.setRepeating(
+                    AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
+                    diasSeleccionados, alarmIntent
+                )
+            }
+
+    }
+
+
+
+
+
 
 }

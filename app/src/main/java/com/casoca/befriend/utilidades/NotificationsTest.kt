@@ -37,8 +37,6 @@ class NotificationsTest :AppCompatActivity(){
         setContentView(R.layout.fragment_events)
 
 
-    image= findViewById(R.id.imageView2)
-
 
        image.setOnClickListener{
             sendNotification()

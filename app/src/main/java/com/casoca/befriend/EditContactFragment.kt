@@ -67,6 +67,12 @@ class EditContactFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
     private var daydefault=0
     private var monthdefault=0
 
+
+    private var messageNotification = ""
+
+    private var frases = mutableListOf<String>()
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -82,6 +88,8 @@ class EditContactFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
         auth = Firebase.auth
         idContacto = arguments?.getString("idContact").toString()
         loadContacts()
+        cargarListaFrases()
+
         binding.ivFotoContacto.setOnClickListener {
             uploadPhoto()
         }
@@ -170,6 +178,8 @@ class EditContactFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
         var folder: StorageReference = FirebaseStorage.getInstance("gs://befriend-d8a37.appspot.com").reference.child(idContact)
         var fileName:StorageReference = folder.child(idContactImg)
 
+        mensajeono()
+
         if(selectedImg!=null)
         {
             fileName.putFile(selectedImg!!).addOnSuccessListener {
@@ -186,9 +196,11 @@ class EditContactFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
                                 "notes" to binding.etNotas.text.toString(),
                                 "temasConvo" to binding.cbTemasConvo.isChecked,
                                 "number" to binding.etNumero.text.toString(),
+                                "message" to messageNotification,
                                 "img" to imgUrl
                             )
                         ).addOnCompleteListener {
+
                             findNavController().popBackStack()
                         }
                 }
@@ -206,6 +218,7 @@ class EditContactFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
                         "notes" to binding.etNotas.text.toString(),
                         "temasConvo" to binding.cbTemasConvo.isChecked,
                         "number" to binding.etNumero.text.toString(),
+                        "message" to messageNotification
                     )
                 ).addOnCompleteListener {
                     findNavController().popBackStack()
@@ -238,8 +251,27 @@ class EditContactFragment : Fragment(), DatePickerDialog.OnDateSetListener  {
         alerta.show()
 
 
+    }
 
 
+
+    private fun mensajeono(){
+        messageNotification = if (binding.cbTemasConvo.isChecked){
+            "Escribe y "+binding.etNombre.text.toString()+" "+frases.random()
+        }else{
+            "Escribe y "+binding.etNombre.text.toString()
+        }
+    }
+
+
+    private fun cargarListaFrases() {
+        db.collection("users")
+            .document(auth.currentUser?.uid.toString())
+            .get()
+            .addOnSuccessListener {
+                frases  = it["conversaciones"] as MutableList<String>
+            }
 
     }
+
 }

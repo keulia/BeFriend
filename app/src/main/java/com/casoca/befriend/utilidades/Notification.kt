@@ -21,21 +21,10 @@ const val messageExtra = "messageextra"
 class Notification: BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-
-        var irPanelNotificacionesUsuario = Intent(context, HomeActivity::class.java)
-        irPanelNotificacionesUsuario.putExtra("noti", "1")
-        var pendingIntent =  PendingIntent.getActivity(context, 1,
-            irPanelNotificacionesUsuario, PendingIntent.FLAG_ONE_SHOT)
-
         val notification = NotificationCompat.Builder(context, channelID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle(intent.getStringExtra(titleExtra))
             .setContentText(intent.getStringExtra(messageExtra))
-            .setContentInfo(intent.getStringExtra(messageExtra))
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setSmallIcon(R.drawable.splashscreen_icon)
-            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-            .setContentIntent(pendingIntent)
             .build()
 
 
