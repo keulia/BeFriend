@@ -53,21 +53,19 @@ class NotificationsTest :AppCompatActivity(){
 
 
 
-
+    //Crear una NotificationChannel
     private fun makeNotificationChannel() {
-        //Notifications channels are just available from Oreo version and above.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //Features of channel
             val notificationChannel = NotificationChannel(CHANNEL_ID,
                 CHANNEL_NAME,
                 NotificationManager.IMPORTANCE_DEFAULT)
 
             val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
-            //Notification is visible on the App's icon
+            //Notificacion es visible en el icono de la app
             notificationChannel.setShowBadge(true)
 
-            //Creates the notification
+            //Crea la notificacion
             notificationManager.createNotificationChannel(notificationChannel)
         }
     }
@@ -94,10 +92,10 @@ class NotificationsTest :AppCompatActivity(){
             //1 sec on 1 sec off 1 sec on 1 sec off
             setVibrate(longArrayOf(1000, 1000, 1000, 1000))
 
-            //setSound()
+            //Poner sonido
             setDefaults(Notification.DEFAULT_SOUND)
 
-            //When we click on the notification
+            //Al hacer click en la notificacion
             setContentIntent(pendingIntent)
 
             setVisibility(VISIBILITY_PUBLIC)
@@ -108,14 +106,14 @@ class NotificationsTest :AppCompatActivity(){
 
             setFullScreenIntent(pendingIntent, true)
 
-            //setTimeoutAfter(5000L) //cancels notification after 5 sec
+            //setTimeoutAfter(5000L) //cancela la notification despues 5 sec
             setAutoCancel(true)
         }
 
         val notificationManagerCompat = NotificationManagerCompat.from(
             this)
 
-        //Launch the notification
+        //ejecutar notificacion
         notificationManagerCompat.notify(NOTIFICATION_ID , builder.build())
     }
 
@@ -126,14 +124,12 @@ class NotificationsTest :AppCompatActivity(){
     }
 
     private fun makePendingIntentYes():PendingIntent {
-        //That is the real intent
+        //Intent real
         val intent = Intent(this, MainActivity::class.java).apply {
             putExtra(YES_EXTRA_KEY, "This text goes to Yes Activity")
         }
 
 
-        //This makes the stack builder with the parent activity (optional)
-        //If we don't set it when we press back button the app will exit
         val stackBuilder = TaskStackBuilder.create(this)
         stackBuilder.addParentStack(MainActivity::class.java)
         stackBuilder.addNextIntent(intent)
@@ -143,8 +139,6 @@ class NotificationsTest :AppCompatActivity(){
     }
 
     private fun makePendingIntentNo():PendingIntent {
-        //This activity is only accessed by notifications, and what we want later is to close the app
-        //So system creates a new task just for this activity instead of adding it to the stack
         val intent = Intent(this, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }

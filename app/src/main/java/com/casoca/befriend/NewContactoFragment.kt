@@ -4,8 +4,8 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,9 +28,8 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
-import java.time.Year
+import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
@@ -69,9 +68,10 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
 
     private var messageNotification = ""
-    private var messageNotificationCumple = ""
-
+    private var cumple = ""
     private var frases = mutableListOf<String>()
+    private var appContext: Context = HomeActivity.contexto
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,34 +90,16 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             uploadPhoto()
         }
 
-
         cargarListaFrases()
-
-
-        var alarmMgr: AlarmManager? = null
-        lateinit var alarmIntent: PendingIntent
-
-        alarmMgr = requireActivity().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmIntent = Intent(HomeActivity.contexto, android.app.Notification::class.java).let { intent ->
-            PendingIntent.getBroadcast(HomeActivity.contexto, 0, intent, 0)
-        }
-
-        alarmMgr.set(
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            SystemClock.elapsedRealtime() + 10 * 1000,
-            alarmIntent
-        )
-
 
         // Save contact
         binding.btnCrearContacto.setOnClickListener {
-
 
             if(binding.etNombre.text.toString().isNotEmpty() &&
                 binding.etNumero.text.toString().isNotEmpty()){
 
                 saveContact()
-                //enableNotification()
+                scheduleNotification(messageNotification, createID())
                 HomeActivity.contexto.toast("El contacto fue creado correctamente!")
             }else{
                 HomeActivity.contexto.toast("Los campos nombre y la frecuencia de notificaciones son campos obligatorios")
@@ -131,6 +113,30 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     }
 
+    // Programar la notificacion
+    private fun scheduleNotification(notificationText: String, idContact: Int) {
+        val notificationUtils = NotificationUtils(HomeActivity.contexto)
+        val etNumeroInDays = binding.etNumero.text.toString().toInt()
+        val repeatFrequencyInMilliSec = (24 * 3600 * 1000 * etNumeroInDays).toLong() //60 * 1000 = probar con minutos
+        notificationUtils.setReminder(notificationText, repeatFrequencyInMilliSec, idContact)
+
+
+    }
+
+    private fun showAlert(time: Long, title: String, message: String) {
+        val date = Date(time)
+        val dateformat = android.text.format.DateFormat.getLongDateFormat(appContext)
+        val timeformat = android.text.format.DateFormat.getTimeFormat(appContext)
+
+        AlertDialog.Builder(activity)
+            .setTitle("Notificatio schedule")
+            .setMessage("title $title \n message: $message \n ${dateformat.format(date)}  ${timeformat.format(date)}")
+            .setPositiveButton("Okay"){_,_ ->}
+            .show()
+
+    }
+
+    // Carga lista de temas de conversaciones
     private fun cargarListaFrases() {
         db.collection("users")
             .document(auth.currentUser?.uid.toString())
@@ -141,8 +147,13 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     }
 
+    // Crea una ID pero no se usa luego
+    fun createID(): Int {
+        val now = Date()
+        return SimpleDateFormat("ddHHmmss", Locale.US).format(now).toInt()
+    }
 
-    //Save contact to database
+    //Guardar contacto a database
     fun saveContact(){
         var idContact = UUID.randomUUID().toString()
         var idContactImg = UUID.randomUUID().toString()
@@ -150,8 +161,11 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         var fileName:StorageReference = folder.child(idContactImg)
 
         mensajeono()
+        birthdayEmpty()
+
     if(selectedImg!=null)
     {
+
         fileName.putFile(selectedImg!!).addOnSuccessListener {
             fileName.downloadUrl.addOnSuccessListener {
                 imgUrl = it.toString()
@@ -162,13 +176,14 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                         mapOf(
                             "idContact" to idContact,
                             "name" to binding.etNombre.text.toString(),
-                            "birthday" to binding.etCumpleanos.text.toString(),
+                            "birthday" to cumple,
                             "notes" to binding.etNotas.text.toString(),
                             "temasConvo" to binding.cbTemasConvo.isChecked,
                             "number" to binding.etNumero.text.toString(),
                             "message" to messageNotification,
                             "img" to imgUrl
                         )
+
                     ).addOnCompleteListener {
 
                         registrarNotificacion()
@@ -185,7 +200,7 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 mapOf(
                     "idContact" to idContact,
                     "name" to binding.etNombre.text.toString(),
-                    "birthday" to binding.etCumpleanos.text.toString(),
+                    "birthday" to cumple,
                     "notes" to binding.etNotas.text.toString(),
                     "temasConvo" to binding.cbTemasConvo.isChecked,
                     "number" to binding.etNumero.text.toString(),
@@ -200,10 +215,9 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
 
-
     }
 
-    // Save picture in cloud storage
+    // Guardar img a cloud storage
     private fun uploadPhoto() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         storage = Firebase.storage
@@ -251,38 +265,36 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 )
             ).addOnSuccessListener {
 
-                val alarmMgr: AlarmManager
-                val alarmIntent: PendingIntent
+                val intent = Intent(appContext, Notification::class.java)
 
-                alarmMgr = HomeActivity.contexto!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                val intent = Intent(HomeActivity.contexto, Notification::class.java)
-
-                intent.putExtra(titleExtra, "Alguien te echa de menos!")
-                intent.putExtra(messageExtra, messageNotification)
-
-                alarmIntent = PendingIntent.getBroadcast(HomeActivity.contexto, 0, intent, 0)
-
-
-                val calendar = Calendar.getInstance()
-                calendar.timeInMillis = System.currentTimeMillis()
-
-
-                var diasSeleccionados = TimeUnit.HOURS.toMillis(binding.etNumero.text.toString().toLong())
-
-
-                // Repeticiones en intervalos
-                alarmMgr.setRepeating(
-                    AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
-                    diasSeleccionados, alarmIntent
+                val pendingIntent = PendingIntent.getBroadcast(
+                    appContext,
+                    notificationID,
+                    intent,
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
                 )
-            }.addOnSuccessListener {
-                //registrarnotiCumple()
+
+                val alarmManager = appContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val time = getTime()
+
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    time+ 2*1000,
+                    pendingIntent
+                )
             }
 
     }
 
+    private fun getTime(): Long {
+
+        val calendar = Calendar.getInstance()
+        return  calendar.timeInMillis
+    }
 
 
+
+    // En el caso de comboBox activado o desactivado
     private fun mensajeono(){
         messageNotification = if (binding.cbTemasConvo.isChecked){
             "Deberías de escribir a "+binding.etNombre.text.toString()+". "+frases.random()
@@ -291,55 +303,15 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         }
     }
 
-    /*
-    private fun registrarnotiCumple(){
-        var idNotification = UUID.randomUUID().toString()
-
-        db.collection("users")
-            .document(auth.currentUser?.uid.toString())
-            .collection("notificaciones")
-            .document(idNotification)
-            .set(
-                mapOf(
-
-                    "id" to idNotification,
-                    "message" to "Hoy es el cumpleaños de "+binding.etNombre.text.toString(),
-                    "name" to binding.etNombre.text.toString(),
-                    "dias" to binding.etNumero.text.toString()
-
-                )
-            ).addOnSuccessListener {
-
-                val alarmMgr: AlarmManager
-                val alarmIntent: PendingIntent
-
-                alarmMgr = HomeActivity.contexto!!.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                val intent = Intent(HomeActivity.contexto, Notification::class.java)
-
-                intent.putExtra(titleExtra, "Alguien te echa de menos!")
-                intent.putExtra(messageExtra, "Hoy es el cumpleaños de "+binding.etNombre.text.toString())
-
-                alarmIntent = PendingIntent.getBroadcast(HomeActivity.contexto, 0, intent, 0)
-
-
-                val calendar = Calendar.getInstance()
-                calendar.timeInMillis = System.currentTimeMillis()
-                calendar[Calendar.DAY_OF_MONTH] =  day.toInt()
-                calendar[Calendar.MONTH] = month.toInt()
-
-
-
-                var diasSeleccionados = TimeUnit.DAYS.toMillis(99999999999999999)
-
-
-                alarmMgr.setRepeating(
-                    AlarmManager.RTC_WAKEUP, calendar.timeInMillis,
-                    diasSeleccionados, alarmIntent
-                )
-            }
-
+    // En el caso de que la fecha de cumple este vacia
+    private fun birthdayEmpty(){
+        cumple = if(binding.etCumpleanos.text.isNotEmpty()){
+           binding.etCumpleanos.text.toString()
+        }else{
+            "??/??"
+        }
     }
-     */
+
 
 
 }

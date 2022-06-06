@@ -124,69 +124,11 @@
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"/>
 
-        <TextView
-            android:layout_marginTop="20dp"
-            android:id="@+id/tvFrecuencia"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="¿Con que frecuencia deseas recibir notificaciones?"
-            android:textColor="@color/azul1"
-            android:fontFamily="@font/nunito_sans_semibold"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:lineSpacingExtra="-7sp"
-            />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/etNumero"
-                android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:layout_marginRight="20dp"
-                android:background="@drawable/logging_field_background"
-                android:fontFamily="@font/nunito_sans_semibold"
-                android:hint="0"
-                android:inputType="number"
-                android:maxLength="3"
-                android:textAlignment="center"
-                android:textColor="@color/azul1"
-                android:textSize="22sp" />
-
-            <TextView
-                android:id="@+id/tvDiaNombre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/nunito_sans_semibold"
-                android:text="Días"
-                android:textColor="@color/azul1"
-                android:textSize="22sp" />
-
-        </LinearLayout>
-
-        <CheckBox
-            android:layout_marginTop="20dp"
-            android:id="@+id/cbTemasConvo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Quiero recibir temas de conversación!"
-            android:fontFamily="@font/nunito_sans_semibold"
-            android:textColor="@color/azul1"
-            android:textSize="16sp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="80dp"
             android:id="@+id/btnGuardarContacto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

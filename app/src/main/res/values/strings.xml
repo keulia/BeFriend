@@ -23,4 +23,15 @@
     <string name="title_notifications">Notifications</string>
     <string name="channel_description">test_desciption</string>
     <string name="channel_name">test_name</string>
+    <string name="action_notify_administer_medication">com.raywenderlich.petmedecinereminder.action.ADMINISTER_MEDICATION</string>
+
+    <string-array name="days">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
 </resources>
