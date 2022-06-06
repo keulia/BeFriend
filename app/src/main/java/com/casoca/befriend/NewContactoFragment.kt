@@ -117,7 +117,7 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private fun scheduleNotification(notificationText: String, idContact: Int) {
         val notificationUtils = NotificationUtils(HomeActivity.contexto)
         val etNumeroInDays = binding.etNumero.text.toString().toInt()
-        val repeatFrequencyInMilliSec = (24 * 3600 * 1000 * etNumeroInDays).toLong() //60 * 1000 = probar con minutos
+        val repeatFrequencyInMilliSec = (60 * 1000 * etNumeroInDays).toLong() //24 * 3600 * 1000 = probar con dias
         notificationUtils.setReminder(notificationText, repeatFrequencyInMilliSec, idContact)
 
 
@@ -297,9 +297,9 @@ class NewContactoFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     // En el caso de comboBox activado o desactivado
     private fun mensajeono(){
         messageNotification = if (binding.cbTemasConvo.isChecked){
-            "Deberías de escribir a "+binding.etNombre.text.toString()+". "+frases.random()
+            "Deberías escribir a "+binding.etNombre.text.toString()+". "+frases.random()
         }else{
-            "Deberías de escribir a "+binding.etNombre.text.toString()
+            "Deberías escribir a "+binding.etNombre.text.toString()
         }
     }
 
